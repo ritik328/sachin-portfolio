@@ -26,6 +26,12 @@
   --line:rgba(20,20,18,.13); --lime:#C6F24E; --olive:#5F7A14; --violet:#6C5CE7;
   --orange:#F58F5B; --pink:#EF7FAE; --blue:#6FA8DC;
   --font-d:'Space Grotesk',sans-serif; --font-b:'Inter',sans-serif; --font-m:'JetBrains Mono',monospace;
+  --theme-transition: background 0.45s ease, color 0.45s ease, border-color 0.45s ease, box-shadow 0.45s ease;
+}
+[data-theme="dark"]{
+  --paper:#0F0F0D; --paper-2:#161613; --card:#1A1A16; --ink:#F1EEE5; --ink-soft:#9C9885;
+  --line:rgba(241,238,229,.1); --lime:#C6F24E; --olive:#A8D43E; --violet:#9B8FFF;
+  --orange:#F58F5B; --pink:#EF7FAE; --blue:#7FBDE8;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{overflow-x:clip}
@@ -40,6 +46,14 @@ button{font-family:inherit;background:none;border:none;color:inherit;cursor:poin
 ::-webkit-scrollbar-track{background:var(--paper)}
 ::-webkit-scrollbar-thumb{background:#cfcabb;border-radius:99px}
 ::-webkit-scrollbar-thumb:hover{background:var(--ink)}
+[data-theme="dark"] ::-webkit-scrollbar-thumb{background:#3a3930}
+[data-theme="dark"] ::-webkit-scrollbar-thumb:hover{background:var(--ink)}
+
+/* ---- smooth theme transitions ---- */
+*, *::before, *::after { transition: background-color 0.4s ease, color 0.35s ease, border-color 0.4s ease, box-shadow 0.4s ease; }
+/* but keep animation/transform snappy */
+.p-ch, .h-char, .wi, .pre-bar-fill, .float-chip, .hi, .about-glow, .marquee-track,
+.cursor-dot, .cursor-ring, .progress span, .btn::after, .scroll-line::after { transition: none !important; }
 
 .container{width:min(1240px,92vw);margin:0 auto}
 .mono{font-family:var(--font-m)}
@@ -67,15 +81,25 @@ button{font-family:inherit;background:none;border:none;color:inherit;cursor:poin
 
 /* ---------- floating pill nav ---------- */
 #nav{position:fixed;top:18px;left:0;right:0;z-index:80;display:flex;justify-content:center;pointer-events:none}
-.nav-pill{pointer-events:auto;display:flex;align-items:center;gap:26px;background:var(--ink);color:var(--paper);border-radius:999px;padding:9px 9px 9px 24px;box-shadow:0 18px 44px -18px rgba(20,20,18,.5);transition:box-shadow .4s,transform .4s}
+.nav-pill{pointer-events:auto;display:flex;align-items:center;gap:26px;background:var(--ink);color:var(--paper);border-radius:999px;padding:9px 9px 9px 24px;box-shadow:0 18px 44px -18px rgba(20,20,18,.5)}
 #nav.scrolled .nav-pill{box-shadow:0 24px 60px -20px rgba(20,20,18,.6)}
 .logo{font-family:var(--font-d);font-weight:700;font-size:19px;white-space:nowrap}
 .logo b{color:var(--lime)}
 .nav-links{display:flex;gap:22px}
-.nav-links a{font-family:var(--font-m);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:rgba(241,238,229,.6);transition:color .3s}
+.nav-links a{font-family:var(--font-m);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:rgba(241,238,229,.6)}
 .nav-links a:hover,.nav-links a.active{color:var(--lime)}
-.nav-cta{background:var(--lime);color:var(--ink);padding:10px 20px;border-radius:999px;font-family:var(--font-d);font-weight:500;font-size:13px;white-space:nowrap;transition:background .3s,color .3s}
+.nav-cta{background:var(--lime);color:var(--ink);padding:10px 20px;border-radius:999px;font-family:var(--font-d);font-weight:500;font-size:13px;white-space:nowrap}
 .nav-cta:hover{background:var(--paper)}
+
+/* ---- theme toggle ---- */
+.theme-toggle{width:44px;height:44px;border:1px solid rgba(241,238,229,.22);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative;overflow:hidden;cursor:pointer;color:var(--paper)}
+.theme-toggle:hover{border-color:var(--lime)}
+.theme-toggle .t-icon{position:absolute;font-size:15px;line-height:1;will-change:transform,opacity;display:flex;align-items:center;justify-content:center;width:100%;height:100%}
+.theme-toggle .t-sun{opacity:0;transform:scale(0.6) rotate(-30deg)}
+.theme-toggle .t-moon{opacity:1;transform:scale(1) rotate(0deg)}
+[data-theme="dark"] .theme-toggle .t-sun{opacity:1;transform:scale(1) rotate(0deg)}
+[data-theme="dark"] .theme-toggle .t-moon{opacity:0;transform:scale(0.6) rotate(30deg)}
+.theme-toggle .t-sun,.theme-toggle .t-moon{transition:opacity .4s ease, transform .4s cubic-bezier(.34,1.56,.64,1)}
 .nav-dots{width:42px;height:42px;border:1px solid rgba(241,238,229,.25);border-radius:50%;position:relative;flex-shrink:0;transition:border-color .3s}
 .nav-dots:hover{border-color:var(--lime)}
 .nav-dots span{position:absolute;width:5px;height:5px;border-radius:50%;background:var(--paper);left:50%;top:50%;transition:.4s cubic-bezier(.76,0,.24,1)}
@@ -319,6 +343,7 @@ button{font-family:inherit;background:none;border:none;color:inherit;cursor:poin
 
 /* ---------- contact ---------- */
 #contact{background:var(--ink);color:var(--paper);overflow:clip;position:relative}
+[data-theme="dark"] #contact{background:#0A0A08}
 #contact .sec-label{color:var(--lime)}
 #contact .sec-label::before{background:var(--lime)}
 .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:5vw;align-items:start}
@@ -344,6 +369,7 @@ button{font-family:inherit;background:none;border:none;color:inherit;cursor:poin
 
 /* ---------- footer ---------- */
 footer{background:var(--ink);color:var(--paper);position:relative;overflow:hidden;padding:110px 0 40px}
+[data-theme="dark"] footer{background:#0A0A08}
 .foot-watermark{position:absolute;left:50%;bottom:-3vw;transform:translateX(-50%);font-family:var(--font-d);font-weight:700;font-size:24vw;line-height:1;color:rgba(241,238,229,.05);pointer-events:none;letter-spacing:-.02em;white-space:nowrap}
 .foot-grid{display:grid;grid-template-columns:1.1fr 1fr 1fr;gap:44px;position:relative;z-index:1}
 .foot-slogan{font-family:var(--font-d);font-weight:700;font-size:clamp(1.6rem,3vw,2.3rem);line-height:1.15;letter-spacing:-.01em;margin-bottom:22px}
@@ -360,8 +386,10 @@ footer{background:var(--ink);color:var(--paper);position:relative;overflow:hidde
 .to-top:hover{background:var(--lime);color:var(--ink);border-color:var(--lime)}
 
 /* ---------- toast ---------- */
-#toast{position:fixed;bottom:30px;left:50%;transform:translate(-50%,20px);opacity:0;z-index:130;background:var(--ink);color:var(--lime);border:1px solid rgba(198,242,78,.35);font-family:var(--font-m);font-size:12px;letter-spacing:.08em;padding:13px 24px;border-radius:999px;pointer-events:none;transition:transform .45s cubic-bezier(.34,1.56,.64,1),opacity .35s}
+#toast{position:fixed;bottom:30px;left:50%;transform:translate(-50%,20px);opacity:0;z-index:130;background:var(--ink);color:var(--lime);border:1px solid rgba(198,242,78,.35);font-family:var(--font-m);font-size:12px;letter-spacing:.08em;padding:13px 24px;border-radius:999px;pointer-events:none}
 #toast.show{transform:translate(-50%,0);opacity:1}
+/* toast override for transition specificity */
+#toast{transition:transform .45s cubic-bezier(.34,1.56,.64,1),opacity .35s !important}
 
 /* ---------- responsive ---------- */
 @media (max-width:1080px){
@@ -416,6 +444,10 @@ footer{background:var(--ink);color:var(--paper);position:relative;overflow:hidde
       <a href="#contact" data-hover>Contact</a>
     </nav>
     <a class="nav-cta magnetic" data-hover href="#contact">Get Started ↗</a>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark/light mode">
+      <span class="t-icon t-moon" aria-hidden="true">🌙</span>
+      <span class="t-icon t-sun" aria-hidden="true">☀️</span>
+    </button>
     <button class="nav-dots" id="navDots" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
   </div>
 </header>
@@ -839,6 +871,29 @@ footer{background:var(--ink);color:var(--paper);position:relative;overflow:hidde
 "use strict";
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 var isTouch = window.matchMedia('(pointer: coarse)').matches;
+
+/* ============ THEME TOGGLE ============ */
+(function(){
+  var saved = localStorage.getItem('sk-theme');
+  var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  var theme = saved || (prefersDark ? 'dark' : 'light');
+  document.documentElement.setAttribute('data-theme', theme);
+  var btn = document.getElementById('themeToggle');
+  btn.addEventListener('click', function(){
+    var current = document.documentElement.getAttribute('data-theme');
+    var next = current === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('sk-theme', next);
+    /* update meta theme-color */
+    var metaTheme = document.querySelector('meta[name="theme-color"]');
+    if(metaTheme) metaTheme.setAttribute('content', next === 'dark' ? '#0F0F0D' : '#F1EEE5');
+    /* quick scale pulse on button */
+    gsap.fromTo(btn, {scale:0.8}, {scale:1, duration:0.5, ease:'back.out(2.5)'});
+  });
+  /* keep meta theme-color in sync on load */
+  var metaTheme = document.querySelector('meta[name="theme-color"]');
+  if(metaTheme && theme === 'dark') metaTheme.setAttribute('content', '#0F0F0D');
+})();
 function $(s,c){ return (c||document).querySelector(s); }
 function $$(s,c){ return Array.prototype.slice.call((c||document).querySelectorAll(s)); }
 
@@ -941,10 +996,12 @@ $$('.count').forEach(function(el){
   }});
 });
 
-/* statement word scrub */
+/* statement word scrub — respects current theme */
+function getInkColor(){ return getComputedStyle(document.documentElement).getPropertyValue('--ink').trim() || '#141412'; }
+function getOliveColor(){ return getComputedStyle(document.documentElement).getPropertyValue('--olive').trim() || '#5F7A14'; }
 var stl = gsap.timeline({scrollTrigger:{trigger:'#statementText', start:'top 80%', end:'bottom 45%', scrub:0.6}});
-stl.to('.s-word', {color:'#141412', stagger:0.05, ease:'none'}, 0);
-stl.to('.s-word.hl', {color:'#5F7A14', stagger:0.05, ease:'none'}, 0);
+stl.to('.s-word', {color:function(){ return getInkColor(); }, stagger:0.05, ease:'none'}, 0);
+stl.to('.s-word.hl', {color:function(){ return getOliveColor(); }, stagger:0.05, ease:'none'}, 0);
 
 /* ============ EDUCATION LINE ============ */
 gsap.to('#eduFill', {scaleY:1, ease:'none', scrollTrigger:{trigger:'.edu-wrap', start:'top 72%', end:'bottom 78%', scrub:0.5}});
@@ -1048,7 +1105,11 @@ if(!isTouch){
     });
   });
   grid.addEventListener('mouseleave', function(){
-    chips.forEach(function(ch){ gsap.to(ch, {scale:1, borderColor:'rgba(20,20,18,0.13)', background:'#FAF8F2', duration:0.5, overwrite:'auto'}); });
+    chips.forEach(function(ch){
+      var cardBg = getComputedStyle(document.documentElement).getPropertyValue('--card').trim() || '#FAF8F2';
+      var lineBorder = getComputedStyle(document.documentElement).getPropertyValue('--line').trim() || 'rgba(20,20,18,0.13)';
+      gsap.to(ch, {scale:1, borderColor:lineBorder, background:cardBg, duration:0.5, overwrite:'auto'});
+    });
   });
 }
 
