@@ -318,10 +318,10 @@ button{font-family:inherit;background:none;border:none;color:inherit;cursor:poin
 .cert-link:hover b{transform:translate(3px,-3px)}
 
 /* ---------- education ---------- */
-.edu-wrap{position:relative;padding-left:46px;max-width:760px}
-.edu-line{position:absolute;left:8px;top:6px;bottom:6px;width:2px;background:var(--line)}
+.edu-wrap{position:relative;padding-left:46px;max-width:760px;overflow:visible}
+.edu-line{position:absolute;left:8px;top:6px;bottom:6px;width:2px;background:var(--line);overflow:visible}
 .edu-line span{display:block;width:100%;height:100%;background:var(--ink);transform:scaleY(0);transform-origin:top}
-.edu-item{position:relative;padding-bottom:54px}
+.edu-item{position:relative;padding-bottom:54px;opacity:1;visibility:visible}
 .edu-item:last-child{padding-bottom:0}
 .edu-item::before{content:'';position:absolute;left:-44px;top:8px;width:12px;height:12px;border-radius:50%;background:var(--paper);border:2px solid var(--olive)}
 .edu-date{font-family:var(--font-m);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--olive)}
@@ -715,19 +715,19 @@ footer{background:var(--ink);color:var(--paper);position:relative;overflow:hidde
     </div>
     <div class="edu-wrap">
       <div class="edu-line"><span id="eduFill"></span></div>
-      <div class="edu-item" data-reveal>
+      <div class="edu-item">
         <span class="edu-date mono">Sep 2021 — Jun 2025</span>
         <h3>Krishna Engineering College</h3>
         <h4>Bachelor of Computer Science — Delhi, India</h4>
         <p>Full-stack development, AI integration, data structures &amp; algorithms, databases and cloud fundamentals.</p>
       </div>
-      <div class="edu-item" data-reveal>
+      <div class="edu-item">
         <span class="edu-date mono">Apr 2020 — Jul 2021</span>
         <h3>Brahma Public Shakti School</h3>
         <h4>Intermediate — Delhi, India</h4>
         <p>Science &amp; mathematics foundation, first lines of code written.</p>
       </div>
-      <div class="edu-item" data-reveal>
+      <div class="edu-item">
         <span class="edu-date mono">Apr 2018 — May 2019</span>
         <h3>Manava Bhawna Public School</h3>
         <h4>High School — Delhi, India</h4>
@@ -1007,7 +1007,9 @@ gsap.utils.toArray('.cert-card').forEach(function(card, i){
 });
 
 /* Education timeline draw with perspective */
-gsap.fromTo('.edu-item', {x: -40, opacity: 0}, {x: 0, opacity: 1, stagger: 0.15, duration: 0.8, ease:'power3.out', scrollTrigger:{trigger:'.edu-wrap', start:'top 75%'}});
+gsap.utils.toArray('.edu-item').forEach(function(item, i){
+  gsap.fromTo(item, {x: -40, opacity: 1}, {x: 0, opacity: 1, duration: 0.8, ease:'power3.out', scrollTrigger:{trigger:item, start:'top 85%'}});
+});
 
 /* Notes cards fan effect */
 gsap.utils.toArray('.note-card').forEach(function(card, i){
